@@ -13,7 +13,7 @@
     <sql id="Base_Column_List">
         task_id, subject, start_date, end_date, description
     </sql>
-    <insert id="insert" parameterType="taskPojo">
+    <insert id="insert" parameterType="com.github.kylepeng93.pojo.TaskPojo">
         insert into tasks (subject, start_date, end_date, description)
         values (
             #{subject, jdbcType=VARCHAR},
@@ -21,7 +21,7 @@
             #{endDate, jdbcType=TIMESTAMP},
             #{description, jdbcType=VARCHAR})
     </insert>
-    <update id="updateById" parameterType="taskPojo">
+    <update id="updateById" parameterType="com.github.kylepeng93.pojo.TaskPojo">
         update tasks
         <set>
             subject = #{subject, jdbcType=VARCHAR},
@@ -34,7 +34,9 @@
         <include refid="Base_Column_List" />
         from tasks
         <where>
-            and task_id = #{id, jdbcType=NUMERIC}
+            <if test="id != null">
+                and task_id = #{id, jdbcType=NUMERIC}
+            </if>
         </where>
     </select>
 

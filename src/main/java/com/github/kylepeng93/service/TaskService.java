@@ -3,6 +3,8 @@ package com.github.kylepeng93.service;
 import com.github.kylepeng93.dto.TaskUpdateRequest;
 import com.github.kylepeng93.pojo.TaskPojo;
 
+import java.util.List;
+
 /**
  * 任务相关服务接口
  * https://kylepeng93.github.io
@@ -16,7 +18,7 @@ public interface TaskService {
      * @param id
      * @return
      */
-    TaskPojo getTaskInfo(Integer id);
+    List<TaskPojo> getTaskInfo(Integer id);
 
     /**
      * 条件更新或者插入task表

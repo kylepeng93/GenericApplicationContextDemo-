@@ -1,14 +1,18 @@
 package com.github.kylepeng93.service.impl;
 
+import com.github.kylepeng93.common.ApiException;
+import com.github.kylepeng93.common.ResultCode;
 import com.github.kylepeng93.dto.TaskUpdateRequest;
 import com.github.kylepeng93.mapper.TaskMapper;
 import com.github.kylepeng93.pojo.TaskPojo;
 import com.github.kylepeng93.service.TaskService;
+import com.github.pagehelper.PageHelper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -26,7 +30,8 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
 
-    public TaskPojo getTaskInfo(Integer id) {
+    public List<TaskPojo> getTaskInfo(Integer id) {
+        PageHelper.startPage(1, 6);
         return taskMapper.getTaskInfo(id);
     }
 

@@ -14,6 +14,8 @@ import javax.sql.DataSource;
  */
 @Data
 public class DatabaseConfig {
-
-
+    private String driverClassName;
+    private String url;
+    private String userName;
+    private String password;
 }

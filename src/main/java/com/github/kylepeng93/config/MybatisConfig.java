@@ -6,10 +6,12 @@ import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
+import org.springframework.core.io.support.ResourcePatternResolver;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.transaction.PlatformTransactionManager;
@@ -30,33 +32,28 @@ import java.util.Properties;
 @EnableTransactionManagement
 public class MybatisConfig extends AbstractDatasourceConfig {
 
-    @Value("${spring.datasource.driver-class-name}")
-    private String driverClassName;
-    @Value("${spring.datasource.url}")
-    private String url;
-    @Value("${spring.datasource.username}")
-    private String userName;
-    @Value("${spring.datasource.password}")
-    private String password;
+    @Bean
+    @ConfigurationProperties(prefix = "spring.datasource")
+    public DatabaseConfig databaseConfig() {
+        return new DatabaseConfig();
+    }
 
     @Bean(value = "defaultDatasource")
     @Primary
-    public DataSource dataSource () {
-       DriverManagerDataSource driverManagerDataSource = new DriverManagerDataSource();
-       driverManagerDataSource.setDriverClassName(driverClassName);
-       driverManagerDataSource.setUrl(url);
-       driverManagerDataSource.setUsername(userName);
-       driverManagerDataSource.setPassword(password);
-       return driverManagerDataSource;
+    public DataSource defaultDatasource (DatabaseConfig config) {
+       return getDataSource(config);
     }
 
     @Bean
     public SqlSessionFactory sqlSessionFactory(@Qualifier("defaultDatasource") DataSource dataSource) throws Exception {
         SqlSessionFactoryBean sqlSessionFactoryBean = new SqlSessionFactoryBean();
         sqlSessionFactoryBean.setDataSource(dataSource);
-        PathMatchingResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
+        ResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
+        // 设置mapper.xml文件路径
         sqlSessionFactoryBean.setMapperLocations(resolver.getResources("classpath*:mapper/*.xml"));
+        // 设置pojo的全路径别名
         sqlSessionFactoryBean.setTypeAliasesPackage("com.github.kylepeng93.pojo");
+        // 添加分页插件
         PageInterceptor pageInterceptor = new PageInterceptor();
         Properties props = new Properties();
         props.setProperty("helperDialect", "mysql");

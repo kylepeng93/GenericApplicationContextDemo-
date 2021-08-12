@@ -1,5 +1,6 @@
 package com.github.kylepeng93.controller;
 
+import com.github.kylepeng93.common.CommonResponse;
 import com.github.kylepeng93.dto.TaskUpdateRequest;
 import com.github.kylepeng93.pojo.TaskPojo;
 import com.github.kylepeng93.service.TaskService;
@@ -7,6 +8,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * 任务控制器
@@ -24,12 +27,12 @@ public class TaskController {
     private TaskService taskService;
 
     @GetMapping("/getTaskInfo")
-    public TaskPojo getTaskInfo(@RequestParam Integer id) {
-        return taskService.getTaskInfo(id);
+    public CommonResponse<List<TaskPojo>> getTaskInfo(Integer id) {
+        return CommonResponse.success(taskService.getTaskInfo(id));
     }
 
     @PostMapping("update")
-    public Boolean updateTask(@RequestBody TaskUpdateRequest request){
-        return taskService.updateTask(request);
+    public CommonResponse<Boolean> updateTask(@RequestBody TaskUpdateRequest request){
+        return CommonResponse.success(taskService.updateTask(request));
     }
 }

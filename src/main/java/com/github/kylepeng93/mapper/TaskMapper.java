@@ -3,6 +3,8 @@ package com.github.kylepeng93.mapper;
 import com.github.kylepeng93.pojo.TaskPojo;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
+
 /**
  * 任务相关的数据访问接口
  * https://kylepeng93.github.io
@@ -15,5 +17,5 @@ public interface TaskMapper {
 
     int updateById(TaskPojo taskPojo);
 
-    TaskPojo getTaskInfo(@Param("id") Integer id);
+    List<TaskPojo> getTaskInfo(@Param("id") Integer id);
 }
