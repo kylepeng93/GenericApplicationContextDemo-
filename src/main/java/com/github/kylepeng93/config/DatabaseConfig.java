@@ -1,8 +1,9 @@
 package com.github.kylepeng93.config;
 
 import lombok.Data;
+import org.springframework.beans.factory.annotation.Value;
 
-import java.sql.Connection;
+import javax.sql.DataSource;
 
 /**
  * 数据库配置
@@ -14,27 +15,5 @@ import java.sql.Connection;
 @Data
 public class DatabaseConfig {
 
-    private static Connection connection;
-
-    private String driverName;
-    private String url;
-    private String userName;
-    private String password;
-
-    public DatabaseConfig(String driverName, String url, String userName, String password) {
-        this.driverName = driverName;
-        this.url = url;
-        this.userName = userName;
-        this.password = password;
-        System.out.println("构造连接参数...");
-    }
-
-    public void init() {
-        System.out.println("初始化数据库连接");
-    }
-
-    public void destroy() {
-        System.out.println("销毁数据库连接");
-    }
 
 }

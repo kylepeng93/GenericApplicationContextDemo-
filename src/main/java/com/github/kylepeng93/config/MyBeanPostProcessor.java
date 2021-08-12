@@ -19,24 +19,14 @@ public class MyBeanPostProcessor implements BeanPostProcessor {
 
     @Override
     public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {
-        System.out.println("我在bean初始化前执行");
+//        System.out.println("我在bean初始化前执行");
         return BeanPostProcessor.super.postProcessBeforeInitialization(bean, beanName);
     }
 
     @Override
     public Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException {
-        System.out.println("我在bean初始化之后执行");
+//        System.out.println("我在bean初始化之后执行");
         return BeanPostProcessor.super.postProcessAfterInitialization(bean, beanName);
-    }
-
-    @Bean(name = "DBConnection", initMethod = "init", destroyMethod = "destroy")
-    public DatabaseConfig mysqlConnection() {
-        Properties properties = System.getProperties();
-        String url = properties.getProperty("url");
-        String driverName = properties.getProperty("driverName");
-        String userName = properties.getProperty("userName");
-        String password = properties.getProperty("password");
-        return new DatabaseConfig(driverName, url, userName, password);
     }
 
 }

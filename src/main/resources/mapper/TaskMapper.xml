@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.github.kylepeng93.mapper.TaskMapper">
+    <resultMap id="BaseResultMap" type="com.github.kylepeng93.pojo.TaskPojo">
+        <id column="task_id" jdbcType="NUMERIC" property="id"/>
+        <result column="subject" jdbcType="VARCHAR" property="subject"/>
+        <result column="start_date" jdbcType="TIMESTAMP" property="startDate"/>
+        <result column="end_date" jdbcType="TIMESTAMP" property="endDate"/>
+        <result column="description" jdbcType="VARCHAR" property="description"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        task_id, subject, start_date, end_date, description
+    </sql>
+    <insert id="insert" parameterType="taskPojo">
+        insert into tasks (subject, start_date, end_date, description)
+        values (
+            #{subject, jdbcType=VARCHAR},
+            #{startDate, jdbcType=TIMESTAMP},
+            #{endDate, jdbcType=TIMESTAMP},
+            #{description, jdbcType=VARCHAR})
+    </insert>
+    <update id="updateById" parameterType="taskPojo">
+        update tasks
+        <set>
+            subject = #{subject, jdbcType=VARCHAR},
+            description = #{description, jdbcType=VARCHAR}
+        </set>
+        where task_id = #{id, jdbcType=NUMERIC}
+    </update>
+    <select id="getTaskInfo" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from tasks
+        <where>
+            and task_id = #{id, jdbcType=NUMERIC}
+        </where>
+    </select>
+
+</mapper>

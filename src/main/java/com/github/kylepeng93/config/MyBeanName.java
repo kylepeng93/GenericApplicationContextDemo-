@@ -15,6 +15,6 @@ public class MyBeanName implements BeanNameAware {
 
     @Override
     public void setBeanName(String name) {
-        System.out.println("我是实现了BeanNameAware的自定义BeanName对象");
+//        System.out.println("我是实现了BeanNameAware的自定义BeanName对象");
     }
 }
