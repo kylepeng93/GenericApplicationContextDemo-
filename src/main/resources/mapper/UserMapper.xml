@@ -3,13 +3,19 @@
 <mapper namespace="com.github.kylepeng93.mapper.UserMapper">
   <resultMap id="BaseResultMap" type="com.github.kylepeng93.pojo.UserPojo">
     <id column="id" jdbcType="DECIMAL" property="id" />
-    <result column="firstName" jdbcType="VARCHAR" property="firstName" />
-    <result column="lastName" jdbcType="VARCHAR" property="lastName" />
+    <result column="user_name" jdbcType="VARCHAR" property="userName" />
+    <result column="password" jdbcType="VARCHAR" property="password" />
+    <result column="gender" jdbcType="VARCHAR" property="gender" />
     <result column="email" jdbcType="VARCHAR" property="email" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, firstName, lastName, email
+    id, user_name, password, gender, email
   </sql>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from user
+  </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
@@ -24,9 +30,12 @@
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into user (firstName, lastName, email
+    insert into user (user_name, password, email, gender
       )
-    values (#{firstName,jdbcType=VARCHAR}, #{lastName,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}
+    values (#{userName,jdbcType=VARCHAR},
+            #{password,jdbcType=VARCHAR},
+            #{email,jdbcType=VARCHAR},
+            #{gender, jdbcType=VARCHAR}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.github.kylepeng93.pojo.UserPojo">
@@ -35,48 +44,58 @@
     </selectKey>
     insert into user
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="firstName != null">
-        firstName,
+      <if test="userName != null">
+        user_name,
       </if>
-      <if test="lastName != null">
-        lastName,
+      <if test="password != null">
+        password,
       </if>
       <if test="email != null">
         email,
       </if>
+      <if test="gender != null">
+        gender,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="firstName != null">
-        #{firstName,jdbcType=VARCHAR},
+      <if test="userName != null">
+        #{userName,jdbcType=VARCHAR},
       </if>
-      <if test="lastName != null">
-        #{lastName,jdbcType=VARCHAR},
+      <if test="password != null">
+        #{password,jdbcType=VARCHAR},
       </if>
       <if test="email != null">
         #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="gender != null">
+        #{gender, jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.github.kylepeng93.pojo.UserPojo">
     update user
     <set>
-      <if test="firstName != null">
-        firstName = #{firstName,jdbcType=VARCHAR},
+      <if test="userName != null">
+        user_name = #{userName,jdbcType=VARCHAR},
       </if>
-      <if test="lastName != null">
-        lastName = #{lastName,jdbcType=VARCHAR},
+      <if test="password != null">
+        password = #{password,jdbcType=VARCHAR},
       </if>
       <if test="email != null">
         email = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="gender != null">
+        gender = #{gender, jdbcType=VARCHAR},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.github.kylepeng93.pojo.UserPojo">
     update user
-    set firstName = #{firstName,jdbcType=VARCHAR},
-      lastName = #{lastName,jdbcType=VARCHAR},
-      email = #{email,jdbcType=VARCHAR}
+    set user_name = #{userName,jdbcType=VARCHAR},
+      password = #{password,jdbcType=VARCHAR},
+      email = #{email,jdbcType=VARCHAR},
+      gender = #{gender, jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

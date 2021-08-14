@@ -42,7 +42,7 @@
 <!--        <table tableName="%">-->
 <!--            <generatedKey column="id" sqlStatement="MySql" identity="true"/>-->
 <!--        </table>-->
-        <table tableName="userPojo">
+        <table tableName="userPojo" mapperName="userPojoMapper" domainObjectName="UserPojo">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>
     </context>

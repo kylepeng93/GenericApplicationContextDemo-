@@ -1,47 +1,73 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
 
-    <!--Define log file store path. Do not use the relative path -->
+    <!--定义保存日志文件的根目录-->
     <property name="LOG_HOME" value="/tmp/log" />
 
-    <!-- Log output in console configuration -->
+    <!-- 定义将日志输出到控制台的格式 -->
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
         <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
-            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{30} - %msg%n</pattern>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %highlight(%-5level) %logger - %msg%n</pattern>
         </encoder>
     </appender>
 
-    <!-- Log data in file configuration. Generate log files per day -->
-    <appender name="FILE"
+    <!-- 定义将日志滚动输出到文件的格式，并指定日志文件的文件名以及日志文件的最大保存期限 -->
+    <appender name="ROLLING_FILE"
               class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <FileNamePattern>${LOG_HOME}/logs/smsismp.log.%d{yyyy-MM-dd}.log</FileNamePattern>
-            <!-- Log files remain 30 days maximam -->
-            <MaxHistory>30</MaxHistory>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <!-- %i为自增变量，从0开始-->
+            <FileNamePattern>${LOG_HOME}/logs/genericApp.log.%d{yyyy-MM-dd}.%i.log</FileNamePattern>
+            <!--单个文件的最大体积-->
+            <maxFileSize>10MB</maxFileSize>
+            <!-- 定义日志文件的最大保存期限 -->
+            <maxHistory>60</maxHistory>
+            <!-- 日志文件总体积上限为20G -->
+            <totalSizeCap>20GB</totalSizeCap>
         </rollingPolicy>
 
         <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
-            <!--Log format ：%d : day, %thread : log thread name, %-5level：Log level info shows only five character widths from the left, %msg：log message, %n: newline -->
-            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{30} - %msg%n</pattern>
+                <!--日志格式：
+                %d : 指定日期格式
+                [%X{user}]：用来获取MDC中存放的值
+                %thread : 记录当前线程名称
+                %-5level：记录日志级别，且限制为5个字符宽度
+                %logger{30} 记录类的访问路径以及限制类路径的长度不能超过30，超过的情况下会使用首字母缩写，只会保留完整的类名
+                %%msg：日志信息
+                %n: 换行
+                -->
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%X{user}] [%thread] %highlight(%-5level) %logger{30} - %msg%n</pattern>
+            <outputPatternAsHeader>true</outputPatternAsHeader>
         </encoder>
-
-        <!--The maximum size of log files is 10MB -->
-        <triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
-            <MaxFileSize>10MB</MaxFileSize>
-        </triggeringPolicy>
+        <!-- 配置过滤器，只输出除了INFO级别的日志-->
+<!--        <filter class="ch.qos.logback.classic.filter.LevelFilter">-->
+<!--            <level>INFO</level>-->
+<!--            <onMatch>DENY</onMatch>-->
+<!--            <onMismatch>ACCEPT</onMismatch>-->
+<!--        </filter>-->
     </appender>
+    <!-- 定义将日志输出到文件的格式 -->
+<!--    <appender name="FILE" class="ch.qos.logback.core.FileAppender">-->
+<!--        <file>${LOG_HOME}/logs/singleFIle.log</file>-->
+<!--        &lt;!&ndash;允许追加日志内容&ndash;&gt;-->
+<!--        <append>true</append>-->
+<!--        <immediateFlush>true</immediateFlush>-->
+<!--        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">-->
+<!--            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>-->
+<!--        </encoder>-->
+<!--    </appender>-->
 
-    <!-- Log output level. Defines the root logger, specify the appender defined by appender-ref -->
+    <!-- 定义最低输出级别为INFO,并指定对应的appender -->
     <root level="INFO">
-        <appender-ref ref="STDOUT" />
-        <appender-ref ref="FILE" />
+<!--        <appender-ref ref="FILE" />-->
+        <appender-ref ref="ROLLING_FILE" />
     </root>
 
-    <!-- Defines the detailed path of each package, inheriting the value of the root package -->
-    <logger name="com.github.kylepeng93.log" level="INFO" />
-    <logger name="com.github.kylepeng93" level="TRACE" />
+    <!--给指定包路径下的类限定最低日志级别和appender-->
+    <logger name="com.github.kylepeng93" level="DEBUG">
+        <appender-ref ref="STDOUT" />
+    </logger>
 
-    <!-- This value is specified by spring.profiles.active=dev of application.properties -->
+    <!-- 指定不同启动环境下的日志保存位置和日志级别，当application.properties文件中的spring.profiles.active=dev时生效  -->
     <springProfile name="dev">
         <!--Define log file save path. Do not use relative path in logback configuration -->
         <property name="LOG_HOME" value="/tmp/log" />

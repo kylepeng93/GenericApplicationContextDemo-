@@ -5,6 +5,8 @@ import com.github.kylepeng93.common.CommonResponse;
 import com.github.kylepeng93.domain.userManagement.service.UserManageService;
 import com.github.kylepeng93.pojo.UserPojo;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.catalina.User;
+import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -35,5 +37,11 @@ public class UserManageController {
     public CommonResponse<Boolean> addUser(@RequestBody UserPojo userPojo) {
         log.info("addUser--入参--{}" , JSONObject.toJSONString(userPojo));
         return CommonResponse.success(userManageService.addUser(userPojo));
+    }
+
+    @PutMapping("updateUser")
+    public CommonResponse<Boolean> updateUser(@RequestBody UserPojo userPojo) {
+        log.info("updateUser--入参--{}" , JSONObject.toJSONString(userPojo));
+        return CommonResponse.success(userManageService.updateUser(userPojo));
     }
 }

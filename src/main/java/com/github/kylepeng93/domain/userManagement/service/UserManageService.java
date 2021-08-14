@@ -20,8 +20,15 @@ public interface UserManageService {
 
     /**
      * 添加用户
-     * @param userPoJo
+     * @param userPojo
      * @return
      */
-    Boolean addUser(UserPojo userPoJo);
+    Boolean addUser(UserPojo userPojo);
+
+    /**
+     * 更新用户
+     * @param userPojo
+     * @return
+     */
+    Boolean updateUser(UserPojo userPojo);
 }

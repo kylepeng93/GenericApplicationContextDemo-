@@ -8,9 +8,11 @@ import java.io.Serializable;
 public class UserPojo implements Serializable {
     private Integer id;
 
-    private String firstName;
+    private String userName;
 
-    private String lastName;
+    private String password;
+
+    private String gender;
 
     private String email;
 

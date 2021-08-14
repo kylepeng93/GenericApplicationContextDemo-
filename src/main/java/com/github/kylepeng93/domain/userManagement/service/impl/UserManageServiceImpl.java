@@ -29,12 +29,26 @@ public class UserManageServiceImpl implements UserManageService {
     /**
      * 添加用户
      *
-     * @param userPoJo
+     * @param userPojo
      * @return
      */
     @Override
-    public Boolean addUser(UserPojo userPoJo) {
-        if (userService.addUser(userPoJo) > 0) {
+    public Boolean addUser(UserPojo userPojo) {
+        if (userService.addUser(userPojo) > 0) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * 更新用户
+     *
+     * @param userPojo
+     * @return
+     */
+    @Override
+    public Boolean updateUser(UserPojo userPojo) {
+        if (userService.updateUser(userPojo) > 0) {
             return true;
         }
         return false;

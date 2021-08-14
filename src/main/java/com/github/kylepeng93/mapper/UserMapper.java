@@ -7,7 +7,6 @@ import java.util.List;
 
 public interface UserMapper {
 
-    @Select("select * from user")
     List<UserPojo> selectAll();
 
     int deleteByPrimaryKey(Integer id);

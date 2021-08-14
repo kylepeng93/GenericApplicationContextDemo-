@@ -21,5 +21,12 @@ public interface UserService {
     /**
      * 添加用户
      */
-    int addUser(UserPojo userPojo);
+    Integer addUser(UserPojo userPojo);
+
+    /**
+     * 更新用户信息
+     * @param userPojo
+     * @return
+     */
+    Integer updateUser(UserPojo userPojo);
 }
