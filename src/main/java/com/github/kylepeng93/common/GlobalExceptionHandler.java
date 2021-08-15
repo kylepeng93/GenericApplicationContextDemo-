@@ -1,5 +1,6 @@
 package com.github.kylepeng93.common;
 
+import org.apache.shiro.authz.AuthorizationException;
 import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
@@ -52,6 +53,16 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(value = Exception.class)
     public CommonResponse handleCommonException(Exception e) {
         return CommonResponse.failed(e.getMessage());
+    }
+
+    /**
+     * 处理Shiro权限拦截异常
+     * 如果返回JSON数据格式请加上 @ResponseBody注解
+     * @Return Map<Object> 返回结果集
+     */
+    @ExceptionHandler(value = AuthorizationException.class)
+    public CommonResponse authorizationErrorHandler(AuthorizationException e){
+        return CommonResponse.forbidden(null);
     }
 
 }

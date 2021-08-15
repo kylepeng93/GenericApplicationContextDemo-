@@ -1,12 +1,16 @@
 package com.github.kylepeng93.domain.userManagement.service.impl;
 
+import com.github.kylepeng93.domain.userManagement.dto.SysUserDto;
 import com.github.kylepeng93.domain.userManagement.service.UserManageService;
+import com.github.kylepeng93.pojo.SysUserPojo;
 import com.github.kylepeng93.pojo.UserPojo;
+import com.github.kylepeng93.service.SysUserService;
 import com.github.kylepeng93.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * 用户信息服务类
@@ -19,11 +23,18 @@ import java.util.List;
 public class UserManageServiceImpl implements UserManageService {
 
     @Autowired
-    private UserService userService;
+    private SysUserService userService;
 
+    /**
+     * 查询查询
+     *
+     * @return
+     */
     @Override
-    public List<UserPojo> getUsers() {
-        return userService.getUsers();
+    public List<SysUserDto> selectUserConditional(SysUserPojo userPojo) {
+        return userService.selectUserConditional(userPojo).stream()
+                .map(SysUserDto::convert)
+                .collect(Collectors.toList());
     }
 
     /**
@@ -33,7 +44,8 @@ public class UserManageServiceImpl implements UserManageService {
      * @return
      */
     @Override
-    public Boolean addUser(UserPojo userPojo) {
+    public Boolean addUser(SysUserPojo userPojo) {
+
         if (userService.addUser(userPojo) > 0) {
             return true;
         }
@@ -47,7 +59,7 @@ public class UserManageServiceImpl implements UserManageService {
      * @return
      */
     @Override
-    public Boolean updateUser(UserPojo userPojo) {
+    public Boolean updateUser(SysUserPojo userPojo) {
         if (userService.updateUser(userPojo) > 0) {
             return true;
         }

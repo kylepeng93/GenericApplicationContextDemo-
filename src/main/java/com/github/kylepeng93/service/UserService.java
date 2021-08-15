@@ -12,21 +12,5 @@ import java.util.List;
  * @date 2021-08-14 上午12:05
  */
 public interface UserService {
-    /**
-     * 获取用户信息
-     * @return
-     */
-    List<UserPojo> getUsers();
 
-    /**
-     * 添加用户
-     */
-    Integer addUser(UserPojo userPojo);
-
-    /**
-     * 更新用户信息
-     * @param userPojo
-     * @return
-     */
-    Integer updateUser(UserPojo userPojo);
 }

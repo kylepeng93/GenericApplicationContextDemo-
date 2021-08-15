@@ -42,7 +42,7 @@
 <!--        <table tableName="%">-->
 <!--            <generatedKey column="id" sqlStatement="MySql" identity="true"/>-->
 <!--        </table>-->
-        <table tableName="userPojo" mapperName="userPojoMapper" domainObjectName="UserPojo">
+        <table tableName="sys_user_role" mapperName="SysUserRoleMapper" domainObjectName="SysUserRolePojo">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>
     </context>

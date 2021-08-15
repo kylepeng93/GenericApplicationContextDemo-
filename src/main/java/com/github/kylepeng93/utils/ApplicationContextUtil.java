@@ -27,6 +27,13 @@ public class ApplicationContextUtil implements ApplicationContextAware {
         return context.getBean(beanName);
     }
 
+    /**
+     * 通过Name返回指定的Bean
+     */
+    public static <T> T getBean(Class<T> beanClass) {
+        return context.getBean(beanClass);
+    }
+
     public static <T> T getBean(String beanName, Class<T> clazz) {
         return context.getBean(beanName, clazz);
     }

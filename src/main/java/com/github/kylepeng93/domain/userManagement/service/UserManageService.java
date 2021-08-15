@@ -1,5 +1,7 @@
 package com.github.kylepeng93.domain.userManagement.service;
 
+import com.github.kylepeng93.domain.userManagement.dto.SysUserDto;
+import com.github.kylepeng93.pojo.SysUserPojo;
 import com.github.kylepeng93.pojo.UserPojo;
 
 import java.util.List;
@@ -13,22 +15,22 @@ import java.util.List;
  */
 public interface UserManageService {
     /**
-     * 获取全量用户信息
+     * 查询查询
      * @return
      */
-    List<UserPojo> getUsers();
+    List<SysUserDto> selectUserConditional(SysUserPojo userPojo);
 
     /**
      * 添加用户
      * @param userPojo
      * @return
      */
-    Boolean addUser(UserPojo userPojo);
+    Boolean addUser(SysUserPojo userPojo);
 
     /**
      * 更新用户
      * @param userPojo
      * @return
      */
-    Boolean updateUser(UserPojo userPojo);
+    Boolean updateUser(SysUserPojo userPojo);
 }
