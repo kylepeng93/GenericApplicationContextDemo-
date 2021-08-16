@@ -6,7 +6,6 @@ import com.github.kylepeng93.domain.loginManagement.dto.UserLoginRequest;
 import com.github.kylepeng93.domain.loginManagement.service.LoginService;
 import com.github.kylepeng93.pojo.UserPojo;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.collections.map.HashedMap;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.IncorrectCredentialsException;
@@ -19,8 +18,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * 登陆控制器
