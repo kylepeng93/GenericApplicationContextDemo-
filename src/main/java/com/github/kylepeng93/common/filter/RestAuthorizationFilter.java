@@ -25,11 +25,28 @@ import java.util.Map;
  * @date 2021-08-15 下午4:12
  */
 public class RestAuthorizationFilter extends FormAuthenticationFilter {
+    /**
+     * Convenience method merely delegates to
+     * {@link WebUtils#saveRequest(ServletRequest) WebUtils.saveRequest(request)} to save the request
+     * state for reuse later.  This is mostly used to retain user request state when a redirect is issued to
+     * return the user to their originally requested url/resource.
+     * <p/>
+     * If you need to save and then immediately redirect the user to login, consider using
+     * {@link #saveRequestAndRedirectToLogin(ServletRequest, ServletResponse)
+     * saveRequestAndRedirectToLogin(request,response)} directly.
+     *
+     * @param request the incoming ServletRequest to save for re-use later (for example, after a redirect).
+     */
+    @Override
+    protected void saveRequest(ServletRequest request) {
+        super.saveRequest(request);
+    }
+
     @Override
     protected boolean onAccessDenied(ServletRequest request, ServletResponse response) throws Exception {
         response.setCharacterEncoding("UTF-8");
         response.setContentType("application/json");
-        //获取认证主体
+        //获取认证主
         Subject subject = SecurityUtils.getSubject();
         //已经认证 就直接放行
         if (subject.isAuthenticated()){

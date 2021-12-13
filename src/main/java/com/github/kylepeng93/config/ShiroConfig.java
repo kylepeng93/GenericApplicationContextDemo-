@@ -61,7 +61,7 @@ public class ShiroConfig {
     /**
      * Shiro基础配置
      */
-    @Bean
+    @Bean("shiroFilter")
     public ShiroFilterFactoryBean shiroFilterFactoryBean(SecurityManager securityManager){
         ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
         // 配置authc的认证过滤器
@@ -72,7 +72,7 @@ public class ShiroConfig {
         Map<String, String> filterChainDefinitionMap = new LinkedHashMap<>();
         // 注意过滤器配置顺序不能颠倒
         // 配置过滤:不会被拦截的链接
-        filterChainDefinitionMap.put("/static/**", "anon");
+        filterChainDefinitionMap.put("/static/**", "anon"); //
         filterChainDefinitionMap.put("/api/user/**", "anon");
 //        filterChainDefinitionMap.put("/api/userManage/**", "anon");
         filterChainDefinitionMap.put("/**", "authc");
@@ -85,6 +85,7 @@ public class ShiroConfig {
      * @Author youcong
      */
     @Primary
+    @Bean
     public SecurityManager defaultSecurityManager() {
         DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
         // 自定义Ssession管理
